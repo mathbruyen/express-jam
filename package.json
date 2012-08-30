@@ -1,0 +1,19 @@
+{
+  "name"          : "express-jam"
+  ,"version"      : "0.0.1"
+  ,"author"       : "Mathieu Bruyen <code@mais-h.eu>"
+  ,"license"      : "MIT"
+  ,"main"         : "./src/configure"
+  ,"engines"      : {
+    "node" : ">=0.8.6"
+  }
+  ,"dependencies" : {
+    "jamjs"    : "0.2.3"
+    ,"express" : "2.5.11"
+    ,"filed"   : "0.0.7"
+  }
+  ,"repository"   : {
+    "type" : "git"
+    ,"url" : "https://github.com/mathbruyen/express-jam.git"
+  }
+}
