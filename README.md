@@ -1,5 +1,7 @@
 # ExpressJS and JamJS work together
 
+Respects `packageDir` and `baseUrl` properties from `package.json`.
+
 ## Link to an express app
 
 ```javascript
@@ -31,8 +33,6 @@ html
 
 ## Environment parameters
 
-* `process.env.PROJECT_DIR` (default value `process.cwd()`): project root directory
-* `process.env.JAM_DIR` (defaults to `/jam`): path to jam files starting from project root directory
 * `process.env.JAM_VIEW_KEY` (defaults to `jam_uri`): key in views options that holds the uri to jam bootstrap
 
 # Licence

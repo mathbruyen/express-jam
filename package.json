@@ -8,9 +8,12 @@
     "node" : ">=0.8.6"
   }
   ,"dependencies" : {
-    "jamjs"    : "0.2.3"
-    ,"express" : "2.5.11"
-    ,"filed"   : "0.0.7"
+    "jamjs"               : "0.2.3"
+    ,"npm"                : "1.1.59"
+    ,"async"              : "0.1.22"
+    ,"express"            : "2.5.11"
+    ,"filed"              : "0.0.7"
+    ,"npm-package-reader" : "0.0.1"
   }
   ,"repository"   : {
     "type" : "git"
