@@ -7,6 +7,9 @@
   ,"engines"      : {
     "node" : ">=0.8.6"
   }
+  ,"bin"          : {
+    "express-jam-install" : "./src/install.js"
+  }
   ,"dependencies" : {
     "jamjs"    : "0.2.3"
     ,"npm"     : "1.1.59"
