@@ -28,8 +28,7 @@ See [Jam documentation](http://jamjs.org/docs#Loading) for more details.
 ## Link to an express app
 
 ```javascript
-var app = require('express').createServer();
-var linkJam = require('express-jam');
+var app = require('express')()
 
 linkJam(app, function(error) {
   if (error) {
@@ -59,8 +58,7 @@ html
 
 The middleware returned can be used to expose the variable in response:
 ```javascript
-var app = require('express').createServer();
-var linkJam = require('express-jam');
+var app = require('express')();
 
 linkJam(app, function(error, middleware) {
   if (error) {
