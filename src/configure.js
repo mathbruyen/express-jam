@@ -22,17 +22,20 @@ function middleware(key, uri) {
   };
 }
 
-function addSetting(app, setting, key, value) {
-  var c = app.settings[setting] || {};
+function addSetting(app, key, value) {
+  // Express 2.x
+  var c = app.settings['view options'] || {};
   c[key] = value;
-  app.set(setting, c);
+  app.set('view options', c);
+  // Express 3.x
+  app.locals[key] = value;
 }
 
 function development(app, config, done) {
   var main = '/require.js';
   fs.exists(config.rootDir + config.jamDir + main, function(exists) {
     if (exists) {
-      addSetting(app, 'view options', config.jamViewKey, config.jamDir + main);
+      addSetting(app, config.jamViewKey, config.jamDir + main);
       app.get(new RegExp('^' + RegExp.quote(config.jamDir) + '\\/.*\\.js$'), connect.static(config.rootDir));
       done(null, middleware(config.jamViewKey, config.jamDir + main));
     } else {
@@ -52,7 +55,7 @@ function production(app, config, done) {
       s.on('end', function() {
         var hash = shasum.digest('hex');
         var uri = config.jamDir + '/catalog_' + hash + '.js';
-        addSetting(app, 'view options', config.jamViewKey, uri);
+        addSetting(app, config.jamViewKey, uri);
         app.get(uri, function (req, resp) {
           req.pipe(filed(config.rootDir + config.jamDir + config.catalog)).pipe(resp);
         });
