@@ -6,6 +6,7 @@ var filed     = require('filed');
 var fs        = require('fs');
 var crypto    = require('crypto');
 var npmLoader = require('npm');
+var readConf  = require('./config');
 
 // Polyfill for Regexp.quote from
 // http://stackoverflow.com/questions/494035/how-do-you-pass-a-variable-to-a-regular-expression-javascript/494122#494122
@@ -59,42 +60,15 @@ function production(app, config, done) {
 }
 
 module.exports = function(app, done) {
-  npmLoader.load(function(err, npm) {
+  readConf(function(err, config) {
     if (err) {
       done(err);
     } else {
-      var root = npm.prefix;
-      fs.readFile(root + '/package.json', 'utf-8', function(err, content) {
-        if (err) {
-          done(err);
-        } else {
-          try {
-            var pack = JSON.parse(content);
-            var jamDir = '/jam';
-            if (pack.jam ) {
-              if (pack.jam.packageDir) {
-                jamDir = '/' + pack.jam.packageDir;
-              }
-            }
-            var jamViewKey = process.env.JAM_VIEW_KEY || 'jam_uri';
-
-            //TODO accept configuration as parameter
-            var config = {
-              'rootDir'    : root,
-              'jamDir'     : jamDir,
-              'jamViewKey' : jamViewKey
-            };
-
-            app.configure('development', function() {
-              development(app, config, done);
-            });
-            app.configure('production', function() {
-              production(app, config, done);
-            });
-          } catch(ex) {
-            done(ex);
-          }
-        }
+      app.configure('development', function() {
+        development(app, config, done);
+      });
+      app.configure('production', function() {
+        production(app, config, done);
       });
     }
   });
