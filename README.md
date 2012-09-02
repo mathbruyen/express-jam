@@ -1,6 +1,29 @@
 # ExpressJS and JamJS work together
 
-Respects `packageDir` property from `package.json` and `NODE_ENV` environment parameter of Express.
+Respects `NODE_ENV` environment parameter of Express, it returns a single
+catalog with all dependencies in production, but each dependency in its
+own file in development mode. Development mode does not need server restart
+if dependencies change.
+
+Respects `packageDir` property from `package.json`.
+
+## Configure dependencies
+
+Write dependencies in `package.json` and execute `express-jam-install` script
+on installation:
+```json
+{
+  "scripts": {
+    "postinstall": "env PATH=./node_modules/.bin:$PATH express-jam-install"
+  }
+  ,"jam": {
+    "dependencies": {
+      "jquery": "1.8.0"
+    }
+  }
+}
+```
+See [Jam documentation](http://jamjs.org/docs#Loading) for more details.
 
 ## Link to an express app
 
@@ -20,7 +43,8 @@ linkJam(app, function(error) {
 
 ## Use in views
 
-The uri to jam bootstrap is provided to views in view options, by default in key `jam_uri`. For example in jade:
+The uri to jam bootstrap is provided to views in view options, by default in
+key `jam_uri`. For example in jade:
 ```jade
 !!!
 html
@@ -33,6 +57,7 @@ html
 
 ## Use out of views
 
+The middleware returned can be used to expose the variable in response:
 ```javascript
 var app = require('express').createServer();
 var linkJam = require('express-jam');
@@ -43,7 +68,7 @@ linkJam(app, function(error, middleware) {
     process.exit(1);
   } else {
     app.get('/', middleware, function(req, res) {
-      res.send('Hello at: ' + res.jam_uri);
+      res.send('Hello at: ' + req.jam_uri);
     });
     app.listen(3000);
   }
