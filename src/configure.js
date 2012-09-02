@@ -15,6 +15,13 @@ if (!RegExp.quote) {
   };
 }
 
+function middleware(key, uri) {
+  return function(req, res, next) {
+    res[key] = uri;
+    next();
+  };
+}
+
 function addSetting(app, setting, key, value) {
   var c = app.settings[setting] || {};
   c[key] = value;
@@ -27,7 +34,7 @@ function development(app, config, done) {
     if (exists) {
       addSetting(app, 'view options', config.jamViewKey, config.jamDir + main);
       app.get(new RegExp('^' + RegExp.quote(config.jamDir) + '\\/.*\\.js$'), connect.static(config.rootDir));
-      done();
+      done(null, middleware(config.jamViewKey, config.jamDir + main));
     } else {
       done('Jam is not installed');
     }
@@ -49,7 +56,7 @@ function production(app, config, done) {
         app.get(uri, function (req, resp) {
           req.pipe(filed(config.rootDir + config.jamDir + config.catalog)).pipe(resp);
         });
-        done();
+        done(null, middleware(config.jamViewKey, uri));
       });
     } else {
       done('Jam is not packaged in a catalog');
