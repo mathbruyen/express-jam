@@ -1,6 +1,6 @@
 # ExpressJS and JamJS work together
 
-Respects `packageDir` and `baseUrl` properties from `package.json`.
+Respects `packageDir` property from `package.json`.
 
 ## Link to an express app
 
@@ -37,4 +37,4 @@ html
 
 # Licence
 
-MIT, see `license.txt`
+MIT, see `license.txt`.
