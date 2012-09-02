@@ -58,40 +58,50 @@ function production(app, config, done) {
   });
 }
 
+function synchronousError(err, done) {
+  process.nextTick(function () {
+    done(err);
+  });
+}
+
 module.exports = function(app, done) {
   npmLoader.load(function(err, npm) {
-    var root = npm.prefix;
-    fs.readFile(root + '/package.json', 'utf-8', function(err, content) {
-      try {
-        var pack = JSON.parse(content);
-        var jamDir = '/jam';
-        if (pack.jam ) {
-          if (pack.jam.packageDir) {
-            jamDir = '/' + pack.jam.packageDir;
+    if (err) {
+      synchronousError(err, done);
+    } else {
+      var root = npm.prefix;
+      fs.readFile(root + '/package.json', 'utf-8', function(err, content) {
+        if (err) {
+          synchronousError(err, done);
+        } else {
+          try {
+            var pack = JSON.parse(content);
+            var jamDir = '/jam';
+            if (pack.jam ) {
+              if (pack.jam.packageDir) {
+                jamDir = '/' + pack.jam.packageDir;
+              }
+            }
+            var jamViewKey = process.env.JAM_VIEW_KEY || 'jam_uri';
+
+            //TODO accept configuration as parameter
+            var config = {
+              'rootDir'    : root,
+              'jamDir'     : jamDir,
+              'jamViewKey' : jamViewKey
+            };
+
+            app.configure('development', function() {
+              development(app, config, done);
+            });
+            app.configure('production', function() {
+              production(app, config, done);
+            });
+          } catch(ex) {
+            synchronousError(ex, done);
           }
         }
-        var jamViewKey = process.env.JAM_VIEW_KEY || 'jam_uri';
-
-        //"postinstall": ""
-
-        //TODO accept configuration as parameter
-        var config = {
-          'rootDir'    : root,
-          'jamDir'     : jamDir,
-          'jamViewKey' : jamViewKey
-        };
-
-        app.configure('development', function() {
-          development(app, config, done);
-        });
-        app.configure('production', function() {
-          production(app, config, done);
-        });
-      } catch(ex) {
-        process.nextTick(function () {
-          done(ex);
-        });
-      }
-    });
+      });
+    }
   });
 };
