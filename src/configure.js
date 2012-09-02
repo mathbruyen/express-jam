@@ -1,12 +1,11 @@
 // Copyright (c) 2012 Mathieu Bruyen
 // See the file license.txt for copying permission.
 
-var connect   = require('connect');
-var filed     = require('filed');
-var fs        = require('fs');
-var crypto    = require('crypto');
-var npmLoader = require('npm');
-var readConf  = require('./config');
+var connect  = require('connect');
+var filed    = require('filed');
+var fs       = require('fs');
+var crypto   = require('crypto');
+var readConf = require('./config');
 
 // Polyfill for Regexp.quote from
 // http://stackoverflow.com/questions/494035/how-do-you-pass-a-variable-to-a-regular-expression-javascript/494122#494122
