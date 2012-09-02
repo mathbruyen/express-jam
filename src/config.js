@@ -28,7 +28,8 @@ module.exports = function(done) {
             var config = {
               'rootDir'    : root,
               'jamDir'     : jamDir,
-              'jamViewKey' : jamViewKey
+              'jamViewKey' : jamViewKey,
+              'catalog'    : '/catalog.js'
             };
 
             done(null, config);

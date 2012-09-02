@@ -36,11 +36,10 @@ function development(app, config, done) {
 }
 
 function production(app, config, done) {
-  var catalog = '/catalog.js';
-  fs.exists(config.rootDir + config.jamDir + catalog, function(exists) {
+  fs.exists(config.rootDir + config.jamDir + config.catalog, function(exists) {
     if (exists) {
       var shasum = crypto.createHash('sha1');
-      var s = fs.ReadStream(config.rootDir + config.jamDir + catalog);
+      var s = fs.ReadStream(config.rootDir + config.jamDir + config.catalog);
       s.on('data', function(data) {
         shasum.update(data);
       });
@@ -49,7 +48,7 @@ function production(app, config, done) {
         var uri = config.jamDir + '/catalog_' + hash + '.js';
         addSetting(app, 'view options', config.jamViewKey, uri);
         app.get(uri, function (req, resp) {
-          req.pipe(filed(config.rootDir + config.jamDir + catalog)).pipe(resp);
+          req.pipe(filed(config.rootDir + config.jamDir + config.catalog)).pipe(resp);
         });
         done();
       });
