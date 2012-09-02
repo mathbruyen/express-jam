@@ -17,7 +17,7 @@ if (!RegExp.quote) {
 
 function middleware(key, uri) {
   return function(req, res, next) {
-    res[key] = uri;
+    req[key] = uri;
     next();
   };
 }
