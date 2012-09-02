@@ -58,21 +58,15 @@ function production(app, config, done) {
   });
 }
 
-function synchronousError(err, done) {
-  process.nextTick(function () {
-    done(err);
-  });
-}
-
 module.exports = function(app, done) {
   npmLoader.load(function(err, npm) {
     if (err) {
-      synchronousError(err, done);
+      done(err);
     } else {
       var root = npm.prefix;
       fs.readFile(root + '/package.json', 'utf-8', function(err, content) {
         if (err) {
-          synchronousError(err, done);
+          done(err);
         } else {
           try {
             var pack = JSON.parse(content);
@@ -98,7 +92,7 @@ module.exports = function(app, done) {
               production(app, config, done);
             });
           } catch(ex) {
-            synchronousError(ex, done);
+            done(ex);
           }
         }
       });
