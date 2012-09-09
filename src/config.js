@@ -29,7 +29,8 @@ module.exports = function(done) {
               'rootDir'    : root,
               'jamDir'     : jamDir,
               'jamViewKey' : jamViewKey,
-              'catalog'    : '/catalog.js'
+              'catalog'    : '/catalog.js',
+              'production' : (process.env.NODE_ENV == 'production')
             };
 
             done(null, config);

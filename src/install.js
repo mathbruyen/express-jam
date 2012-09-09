@@ -24,10 +24,10 @@ readConf(function(err, config) {
     jam.upgrade(config.rootDir, function(err) {
       if (err) {
         onError(err);
-      } else {
+      } else if (config.production) {
         var options = {
-          output: config.rootDir + config.jamDir + config.catalog
-          ,includes: []
+          output: config.rootDir + config.jamDir + config.catalog,
+          includes: []
         };
         console.log('Compile packages in a single catalog');
         jam.compile(options, function(err) {
@@ -37,6 +37,8 @@ readConf(function(err, config) {
             onSuccess();
           }
         });
+      } else {
+        console.log('No single catalog packaging');
       }
     });
   }

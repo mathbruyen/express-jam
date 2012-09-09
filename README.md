@@ -1,11 +1,11 @@
 # ExpressJS and JamJS work together
 
-Respects `NODE_ENV` environment parameter of Express, it returns a single
-catalog with all dependencies in production, but each dependency in its
-own file in development mode. Development mode does not need server restart
-if dependencies change.
+Respects npm [production](https://npmjs.org/doc/config.html#production)
+configuration setting, it returns a single catalog with all dependencies in
+production, but each dependency in its own file in development mode.
+Development mode does not need server restart if dependencies change.
 
-Respects `packageDir` property from `package.json`.
+Respects jam `packageDir` property from `package.json`.
 
 ## Configure dependencies
 

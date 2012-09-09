@@ -72,11 +72,9 @@ module.exports = function(app, done) {
     if (err) {
       done(err);
     } else {
-      app.configure('development', function() {
-        development(app, config, done);
-      });
-      app.configure('production', function() {
-        production(app, config, done);
+      var configure = (config.production) ? production : development;
+      app.configure(function() {
+        configure(app, config, done);
       });
     }
   });
