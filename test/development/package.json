@@ -1,0 +1,9 @@
+{
+  "name"          : "express-jam-test"
+  ,"version"      : "0.0.1"
+  ,"jam": {
+    "dependencies": {
+      "jquery": "1.7.1"
+    }
+  }
+}
