@@ -39,6 +39,7 @@ readConf(function(err, config) {
         });
       } else {
         console.log('No single catalog packaging');
+        onSuccess();
       }
     });
   }
